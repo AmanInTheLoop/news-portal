@@ -53,7 +53,7 @@ const Home = () => {
   const entertainmentNews = news
     .filter((item) => item.category === "Entertainment")
     .slice(0, 3);
-
+  const { isAuthenticated } = useSelector((state) => state.auth);
   return (
     <div className="bg-gray-50">
       {/* ================================
@@ -415,25 +415,47 @@ const Home = () => {
       <section className="px-6 py-16">
         <div className="mx-auto max-w-5xl rounded-2xl bg-blue-600 px-6 py-12 text-center text-white">
           <h2 className="text-3xl font-bold md:text-4xl">
-            Have a Story to Share?
+            {isAuthenticated
+              ? "Ready to Share Your Story?"
+              : "Have a Story to Share?"}
           </h2>
 
           <p className="mx-auto mt-4 max-w-2xl leading-7 text-blue-100">
-            Create an account and publish your own news articles on NewsPortal.
+            {isAuthenticated
+              ? "Publish your own news article and share your story with the NewsPortal community."
+              : "Create an account and publish your own news articles on NewsPortal."}
           </p>
 
           <div className="mt-8 flex flex-wrap justify-center gap-4">
-            <Link
-              to="/register"
-              className="rounded-lg bg-white px-6 py-3 font-semibold text-blue-600 hover:bg-gray-100">
-              Create Account
-            </Link>
+            {isAuthenticated ? (
+              <>
+                <Link
+                  to="/dashboard/create-news"
+                  className="rounded-lg bg-white px-6 py-3 font-semibold text-blue-600 hover:bg-gray-100">
+                  Create News
+                </Link>
 
-            <Link
-              to="/dashboard/create-news"
-              className="rounded-lg border border-white px-6 py-3 font-semibold text-white hover:bg-blue-700">
-              Publish News
-            </Link>
+                <Link
+                  to="/dashboard"
+                  className="rounded-lg border border-white px-6 py-3 font-semibold text-white hover:bg-blue-700">
+                  Go to Dashboard
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/register"
+                  className="rounded-lg bg-white px-6 py-3 font-semibold text-blue-600 hover:bg-gray-100">
+                  Create Account
+                </Link>
+
+                <Link
+                  to="/login"
+                  className="rounded-lg border border-white px-6 py-3 font-semibold text-white hover:bg-blue-700">
+                  Login
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </section>
